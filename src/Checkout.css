@@ -1,6 +1,7 @@
+/* When I added the header component to the js page i had to come back here and set the padding to 0 */
 .checkout {
   display: flex;
-  padding: 20px;
+  padding: 0px;
   background-color: white;
   height: max-content;
 }
