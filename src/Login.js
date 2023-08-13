@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from "./firebase.js";
 
 
 
-
-
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');//empty string intead of null
   const [password, setPassword] = useState('');
 
   const signIn = e => {
     e.preventDefault()
 
+    auth
+    .signInWithEmailAndPassword(email, password)
+    .then(auth => {
+      navigate('/')
+    })
+    .catch(error =>alert(error.message))
   } //this is to prevent the automatic refresh of the page when user signs in
 
   const register = e => {
@@ -22,8 +27,11 @@ function Login() {
     auth
     .createUserWithEmailAndPassword(email, password)
     .then((auth) => {
-      //this means it successfully created a new uer wit email and pasword
       console.log(auth);
+      if (auth) {
+        navigate('/');
+      }//this means it successfully created a new user wit email and pasword
+
     })
     .catch(error => alert(error.message))
 

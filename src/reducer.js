@@ -1,6 +1,7 @@
 export const initialState = {
   basket : [],
-};
+  user: null
+}; //user is null becaus e lets assume by default the user is null
 
 //Selector
 //this is a function within a function as a parameter?
