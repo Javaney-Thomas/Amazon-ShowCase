@@ -18,18 +18,18 @@ function App() {
       console.log("The USER IS >>>", authUser);
       
       if (authUser) {
-        //the user jjust logged in / the user was logged in
+        //the user just logged in / the user was logged in
 
         dispatch({
           type: 'SET_USER',
           user: authUser
-        })//if the pagebrefreshes, or you loeave and come back it sets the user to who was logged in
+        })//if the page refreshes, or you loeave and come back it sets the user to who was logged in
       } else{
         //the user is logged out
         dispatch({
           type: 'SET_USER',
           user: null
-        })//if the user i logged out its gonna set the user to nobody so noone is loged in
+        })//if the user is logged out its gonna set the user to nobody so noone is loged in
       }
     })
   }, [])
