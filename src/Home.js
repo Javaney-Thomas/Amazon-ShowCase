@@ -1,5 +1,7 @@
 import React from 'react';
 import "./Home.css";
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Product from './Product';
 import Header from './Header';
 
@@ -8,10 +10,40 @@ function Home() {
     <div className='home'>
       <div className="home__container">
         < Header />
-        <img className='home__image'
+
+        <Carousel
+          showThumbs={false}
+          infiniteLoop={true}
+          autoPlay={true}
+          interval={5000}
+          transitionTime={500}
+          stopOnHover={false}
+        >
+          <div>
+            <img className='home__image'
+              src="https://m.media-amazon.com/images/I/71JBER9pf2L._SX3000_.jpg"
+              alt=""
+            />
+          </div>
+          <div>
+            <img className='home__image'
+              src="https://i.pinimg.com/originals/10/7d/6a/107d6a42f16bd8d38600c52a3ccb1e32.jpg"
+              alt=""
+            />
+          </div>
+          <div>
+            <img className='home__image'
+              src="https://images.alphacoders.com/132/1326370.png"
+              alt=""
+            />
+          </div>
+          {/* Add more carousel slides as needed */}
+        </Carousel>
+
+        {/* <img className='home__image'
         src="https://m.media-amazon.com/images/I/71JBER9pf2L._SX3000_.jpg" 
         alt=""
-        />
+        /> */}
       
         <div className='home__row'>
           <Product title='Finish What you Start' 

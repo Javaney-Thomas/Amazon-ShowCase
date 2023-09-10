@@ -29,7 +29,19 @@
   margin-top: 10px;
   border-color: #a88734 #9c7e31 #846a29;
   color: #111;
+  transition: background-color 1.3s ease, transform 0.2s ease;
 }
+
+.product > button:active {
+  vertical-align: top;
+  padding: 1px 1px 1px;
+}
+
+.product > button:hover {
+  cursor: pointer;
+  border-color: #111;
+}
+
 
 
 .product__price {
