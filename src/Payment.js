@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { useEffect, useState }from 'react';
 import './Payment.css';
 import { useStateValue } from "./StateProvider";
 import CheckoutProduct from './CheckoutProduct';
@@ -17,9 +17,37 @@ function Payment() {
   const [processing, setProcessing] = useState("");
   const [error, setError] = useState(null);
   const [disabled, setDisabled]= useState(true);
+  const [clientSecret, setClientSecret] = useState(true);
 
-  const handleSubmit = e => {
+  useEffect(() => {
+    //generate the special stripe secret which alows us to charge a customer
+    const getClientSecret = async () => {
+      const response = await axios({
+        method: 'post',
+        url: `/payment/create?total=${getBasketTotal(basket) * 100}` //this means the currency subunits 
+      });
+      setClientSecret(response.data.clientSecret)
+    }
+
+      getClientSecret();
+  }, [basket])
+
+  const handleSubmit = async (Event) => {
     //do stripe stuff
+    Event.preventDefault();
+    setProcessing(true); //this stops you from pressing the button more after the first time check line 99
+
+    const payload = await stripe.confirmCardPayment(clientSecret,  {
+      payment_method: {
+        card: elements.getElement(CardElements)
+      }
+    }).then(({ paymentIntent }) => {
+
+      setSucceeded(true);
+      setError(null)
+      setProcessing(false)
+
+    })
   }
 
   const handleChange = e => {
@@ -99,6 +127,9 @@ function Payment() {
 
                   </button>
                 </div>
+
+                {/*Errors */}
+                {error && <div>{error}</div>}
               </form>
 
           </div>
