@@ -2,10 +2,12 @@ import React, { useEffect, useState }from 'react';
 import './Payment.css';
 import { useStateValue } from "./StateProvider";
 import CheckoutProduct from './CheckoutProduct';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 import { getBasketTotal } from './reducer';
 import CurrencyFormat from "react-currency-format";
+import axios from './axios';
+
 
 function Payment() {
   const [{ basket, user}, dispatch] = useStateValue();
@@ -18,6 +20,7 @@ function Payment() {
   const [error, setError] = useState(null);
   const [disabled, setDisabled]= useState(true);
   const [clientSecret, setClientSecret] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     //generate the special stripe secret which alows us to charge a customer
@@ -32,6 +35,8 @@ function Payment() {
       getClientSecret();
   }, [basket])
 
+  console.log('The SECRET IS', clientSecret)
+
   const handleSubmit = async (Event) => {
     //do stripe stuff
     Event.preventDefault();
@@ -39,7 +44,7 @@ function Payment() {
 
     const payload = await stripe.confirmCardPayment(clientSecret,  {
       payment_method: {
-        card: elements.getElement(CardElements)
+        card: elements.getElement(CardElement)
       }
     }).then(({ paymentIntent }) => {
 
@@ -47,10 +52,12 @@ function Payment() {
       setError(null)
       setProcessing(false)
 
+      navigate.replace('/orders')
+
     })
   }
 
-  const handleChange = e => {
+  const handleChange = Event => {
     //this will listen for changers in the CardElement
     //and display any errors as the customertyesd in theor csrd details
   setDisabled(Event.empty);
